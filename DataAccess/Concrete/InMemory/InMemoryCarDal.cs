@@ -41,12 +41,12 @@ namespace DataAccess.Concrete.InMemory
 
         public Car GetById(int id)
         {
-            return _cars.SingleOrDefault(c => c.Id == id);
+            return _cars.Find(c => c.Id == id);
         }
 
         public void Update(Car car)
         {
-            Car carToUpdate = _cars.SingleOrDefault(c => c.Id == car.Id);
+            Car carToUpdate = _cars.Find(c => c.Id == car.Id);
 
             carToUpdate.BrandId = car.BrandId;
             carToUpdate.ColorId = car.ColorId;

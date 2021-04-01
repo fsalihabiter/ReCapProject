@@ -1,58 +1,85 @@
 ﻿using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace DataAccess.Concrete.InMemory
 {
-    public class InMemoryCarDal<T> : ICarDal
+    public class InMemoryCarDal : ICarDal
     {
-        List<Car> _cars;
 
         public InMemoryCarDal()
         {
-            _cars = new List<Car>
-            {
-                new Car{Id=1, BrandId=1, ColorId=1, DailyPrice=500, ModelYear=Convert.ToDateTime(2000), Description="C9" },
-                new Car{Id=2, BrandId=3, ColorId=6, DailyPrice=350, ModelYear=Convert.ToDateTime(1993), Description="A8" },
-                new Car{Id=1, BrandId=51, ColorId=2, DailyPrice=1250, ModelYear=Convert.ToDateTime(2020), Description="W2" }
-            };
         }
-
         public void Add(Car car)
         {
-            _cars.Add(car);
+            using (ReCapProjectContext context = new ReCapProjectContext())
+            {
+                var addedEntity = context.Entry(car);
+                addedEntity.State = EntityState.Added;
+                context.SaveChanges();
+            }
         }
+
 
         public void Delete(Car car)
         {
-
-            Car carToDelete = _cars.SingleOrDefault(c => c.Id == car.Id);
-
-            _cars.Remove(carToDelete);
+            using (ReCapProjectContext context = new ReCapProjectContext())
+            {
+                var deletedEntity = context.Entry(car);
+                deletedEntity.State = EntityState.Deleted;
+                context.SaveChanges();
+            }
         }
 
-        public List<Car> GetAll()
+
+        public Car Get(Expression<Func<Car, bool>> filter)
         {
-            return _cars;
+            using (ReCapProjectContext context = new ReCapProjectContext())
+            {
+                return context.Set<Car>().SingleOrDefault(filter);
+            }
         }
 
-        public Car GetById(int id)
+
+        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
         {
-            return _cars.Find(c => c.Id == id);
+            using (ReCapProjectContext context = new ReCapProjectContext())
+            {
+                return filter == null ? context.Set<Car>().ToList() : context.Set<Car>().Where(filter).ToList();
+            }
+        }
+
+        public List<Car> GetCarsByBrandId(int id)
+        {
+            using (ReCapProjectContext context = new ReCapProjectContext())
+            {
+                return context.Set<Car>().Where(p => p.BrandId == id).ToList();
+            }
+        }
+
+        public List<Car> GetCarsByColorId(int id)
+        {
+            using (ReCapProjectContext context = new ReCapProjectContext())
+            {
+                return context.Set<Car>().Where(p => p.ColorId == id).ToList();
+            }
         }
 
         public void Update(Car car)
         {
-            Car carToUpdate = _cars.Find(c => c.Id == car.Id);
+            using (ReCapProjectContext context = new ReCapProjectContext())
+            {
+                var updatedEntity = context.Entry(car);
+                updatedEntity.State = EntityState.Modified;
+                context.SaveChanges();
+            }
 
-            carToUpdate.BrandId = car.BrandId;
-            carToUpdate.ColorId = car.ColorId;
-            carToUpdate.DailyPrice = car.DailyPrice;
-            carToUpdate.ModelYear = car.ModelYear;
-            carToUpdate.Description = car.Description;
         }
     }
 }

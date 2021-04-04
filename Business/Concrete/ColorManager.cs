@@ -12,14 +12,34 @@ namespace Business.Concrete
     {
         IColorDal _colorDal;
 
-        public Color Get(Expression<Func<Color, bool>> filter)
+        public ColorManager(IColorDal colorDal)
         {
-            return _colorDal.Get(filter);
+            _colorDal = colorDal;
+        }
+
+        public Color Get(int id)
+        {
+            return _colorDal.Get(c => c.Id == id);
         }
 
         public List<Color> GetAll(Expression<Func<Color, bool>> filter = null)
         {
             return _colorDal.GetAll(filter);
+        }
+
+        public bool Insert(Color color)
+        {
+            return _colorDal.Add(color);
+        }
+
+        public bool Update(Color color)
+        {
+            return _colorDal.Update(color);
+        }
+
+        public bool Delete(Color color)
+        {
+            return _colorDal.Delete(color);
         }
     }
 }

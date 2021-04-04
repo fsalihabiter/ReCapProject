@@ -9,6 +9,9 @@ namespace Business.Abstract
     public interface IColorService
     {
         List<Color> GetAll(Expression<Func<Color, bool>> filter = null);
-        Color Get(Expression<Func<Color, bool>> filter);
+        Color Get(int id);
+        bool Insert(Color color);
+        bool Update(Color color);
+        bool Delete(Color color);
     }
 }

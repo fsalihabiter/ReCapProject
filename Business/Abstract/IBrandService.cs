@@ -9,6 +9,9 @@ namespace Business.Abstract
     public interface IBrandService
     {
         List<Brand> GetAll(Expression<Func<Brand, bool>> filter = null);
-        Brand Get(Expression<Func<Brand, bool>> filter);
+        Brand Get(int id);
+        bool Insert(Brand brand);
+        bool Update(Brand brand);
+        bool Delete(Brand brand);
     }
 }

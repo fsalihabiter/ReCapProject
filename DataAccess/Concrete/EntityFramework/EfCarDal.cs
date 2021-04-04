@@ -1,5 +1,7 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess.EntityFramework;
+using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,54 +11,52 @@ using System.Text;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfCarDal : ICarDal
+    public class EfCarDal : EfEntityRapositoryBase<Car, CarRentalContext>, ICarDal
     {
-        public void Add(Car entity)
+        public List<CarDetailsDto> GetCarDetails(int id)
         {
-            using (ReCapProjectContext context = new ReCapProjectContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
-                if (entity.CarName.Length > 2 && entity.DailyPrice > 0)
-                {
-                    var addedEntity = context.Entry(entity);
-                    addedEntity.State = EntityState.Added;
-                    context.SaveChanges();
-                }
+                var result = from c in context.Cars
+                             join b in context.Brands
+                             on c.BrandId equals b.Id
+                             join co in context.Colors
+                             on c.ColorId equals co.Id
+                             where c.Id == id
+                             select new CarDetailsDto
+                             {
+                                 Id = c.Id,
+                                 BrandName = b.BrandName,
+                                 ColorName = co.ColorName,
+                                 CarName = c.CarName,
+                                 ModelYear = c.ModelYear,
+                                 DailyPrice = c.DailyPrice,
+                                 Description = c.Description
+                             };
+                return result.ToList();
             }
         }
 
-        public void Delete(Car entity)
+        public List<CarDetailsDto> GetCarsDetails()
         {
-            using (ReCapProjectContext context = new ReCapProjectContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
-                var deletedEntity = context.Entry(entity);
-                deletedEntity.State = EntityState.Deleted;
-                context.SaveChanges();
-            }
-        }
-
-        public Car Get(Expression<Func<Car, bool>> filter)
-        {
-            using (ReCapProjectContext context = new ReCapProjectContext())
-            {
-                return context.Set<Car>().SingleOrDefault(filter);
-            }
-        }
-
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-        {
-            using (ReCapProjectContext context = new ReCapProjectContext())
-            {
-                return filter == null ? context.Set<Car>().ToList() : context.Set<Car>().Where(filter).ToList();
-            }
-        }
-
-        public void Update(Car entity)
-        {
-            using (ReCapProjectContext context = new ReCapProjectContext())
-            {
-                var updatedEntity = context.Entry(entity);
-                updatedEntity.State = EntityState.Modified;
-                context.SaveChanges();
+                var result = from c in context.Cars
+                             join b in context.Brands
+                             on c.BrandId equals b.Id
+                             join co in context.Colors
+                             on c.ColorId equals co.Id
+                             select new CarDetailsDto
+                             {
+                                 Id = c.Id,
+                                 BrandName = b.BrandName,
+                                 ColorName = co.ColorName,
+                                 CarName = c.CarName,
+                                 ModelYear = c.ModelYear,
+                                 DailyPrice = c.DailyPrice,
+                                 Description = c.Description
+                             };
+                return result.ToList();
             }
         }
     }

@@ -1,6 +1,8 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess;
+using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,7 +20,7 @@ namespace DataAccess.Concrete.InMemory
         }
         public void Add(Car car)
         {
-            using (ReCapProjectContext context = new ReCapProjectContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
                 var addedEntity = context.Entry(car);
                 addedEntity.State = EntityState.Added;
@@ -29,7 +31,7 @@ namespace DataAccess.Concrete.InMemory
 
         public void Delete(Car car)
         {
-            using (ReCapProjectContext context = new ReCapProjectContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
                 var deletedEntity = context.Entry(car);
                 deletedEntity.State = EntityState.Deleted;
@@ -40,7 +42,7 @@ namespace DataAccess.Concrete.InMemory
 
         public Car Get(Expression<Func<Car, bool>> filter)
         {
-            using (ReCapProjectContext context = new ReCapProjectContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
                 return context.Set<Car>().SingleOrDefault(filter);
             }
@@ -49,15 +51,20 @@ namespace DataAccess.Concrete.InMemory
 
         public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
         {
-            using (ReCapProjectContext context = new ReCapProjectContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
                 return filter == null ? context.Set<Car>().ToList() : context.Set<Car>().Where(filter).ToList();
             }
         }
 
+        public List<CarDetailsDto> GetCarDetails(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Car> GetCarsByBrandId(int id)
         {
-            using (ReCapProjectContext context = new ReCapProjectContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
                 return context.Set<Car>().Where(p => p.BrandId == id).ToList();
             }
@@ -65,21 +72,41 @@ namespace DataAccess.Concrete.InMemory
 
         public List<Car> GetCarsByColorId(int id)
         {
-            using (ReCapProjectContext context = new ReCapProjectContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
                 return context.Set<Car>().Where(p => p.ColorId == id).ToList();
             }
         }
 
+        public List<CarDetailsDto> GetCarsDetails()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Car car)
         {
-            using (ReCapProjectContext context = new ReCapProjectContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
                 var updatedEntity = context.Entry(car);
                 updatedEntity.State = EntityState.Modified;
                 context.SaveChanges();
             }
 
+        }
+
+        bool IEntityRepository<Car>.Add(Car entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IEntityRepository<Car>.Delete(Car entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IEntityRepository<Car>.Update(Car entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

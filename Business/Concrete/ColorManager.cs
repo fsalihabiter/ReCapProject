@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -17,29 +19,49 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
-        public Color Get(int id)
+        public IDataResult<Color> Get(Expression<Func<Color, bool>> filter)
         {
-            return _colorDal.Get(c => c.Id == id);
+            if (_colorDal.Get(filter) == null)
+            {
+                return new ErrorDataResult<Color>(Messages.ColorNotGeted);
+            }
+            return new SuccessDataResult<Color>(_colorDal.Get(filter), Messages.ColorGeted);
         }
 
-        public List<Color> GetAll(Expression<Func<Color, bool>> filter = null)
+        public IDataResult<List<Color>> GetAll(Expression<Func<Color, bool>> filter = null)
         {
-            return _colorDal.GetAll(filter);
+            if (_colorDal.GetAll(filter) == null)
+            {
+                return new ErrorDataResult<List<Color>>(Messages.ColorNotGeted);
+            }
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(filter), Messages.ColorGeted);
         }
 
-        public bool Insert(Color color)
+        public IResult Insert(Color color)
         {
-            return _colorDal.Add(color);
+            if (_colorDal.Add(color))
+            {
+                return new SuccessResult(Messages.ColorAdded);
+            }
+            return new ErrorResult(Messages.ColorNotAdded);
         }
 
-        public bool Update(Color color)
+        public IResult Update(Color color)
         {
-            return _colorDal.Update(color);
+            if (_colorDal.Update(color))
+            {
+                return new SuccessResult(Messages.ColorUpdated);
+            }
+            return new ErrorResult(Messages.ColorNotUpdated);
         }
 
-        public bool Delete(Color color)
+        public IResult Delete(Color color)
         {
-            return _colorDal.Delete(color);
+            if (_colorDal.Delete(color))
+            {
+                return new SuccessResult(Messages.ColorDeleted);
+            }
+            return new ErrorResult(Messages.ColorNotDeleted);
         }
     }
 }

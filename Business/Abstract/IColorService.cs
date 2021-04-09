@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Utilities.Results;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -8,10 +9,10 @@ namespace Business.Abstract
 {
     public interface IColorService
     {
-        List<Color> GetAll(Expression<Func<Color, bool>> filter = null);
-        Color Get(int id);
-        bool Insert(Color color);
-        bool Update(Color color);
-        bool Delete(Color color);
+        IDataResult<List<Color>> GetAll(Expression<Func<Color, bool>> filter = null);
+        IDataResult<Color> Get(Expression<Func<Color, bool>> filter);
+        IResult Insert(Color color);
+        IResult Update(Color color);
+        IResult Delete(Color color);
     }
 }

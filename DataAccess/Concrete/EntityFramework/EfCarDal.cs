@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -13,7 +14,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRapositoryBase<Car, CarRentalContext>, ICarDal
     {
-        public List<CarDetailsDto> GetCarDetails(int id)
+        public IDataResult<CarDetailsDto> GetCarDetails(int id)
         {
             using (CarRentalContext context = new CarRentalContext())
             {
@@ -33,11 +34,16 @@ namespace DataAccess.Concrete.EntityFramework
                                  DailyPrice = c.DailyPrice,
                                  Description = c.Description
                              };
-                return result.ToList();
+                CarDetailsDto carDTO = result.FirstOrDefault();
+                if (carDTO == null)
+                {
+                    return new ErrorDataResult<CarDetailsDto>("İstenilen Araba ögesi bulunamadığı için araba detayları listelenemedi.");
+                }
+                return new SuccessDataResult<CarDetailsDto>(carDTO, "İstenilen Araba ögesi bulunamadığı için araba detayları listelenemedi.");
             }
         }
 
-        public List<CarDetailsDto> GetCarsDetails()
+        public IDataResult<List<CarDetailsDto>> GetCarsDetails()
         {
             using (CarRentalContext context = new CarRentalContext())
             {
@@ -56,7 +62,12 @@ namespace DataAccess.Concrete.EntityFramework
                                  DailyPrice = c.DailyPrice,
                                  Description = c.Description
                              };
-                return result.ToList();
+
+                if (result.Count() <= 0)
+                {
+                    return new ErrorDataResult<List<CarDetailsDto>>("İstenilen Araba ögesi bulunamadığı için araba detayları listelenemedi.");
+                }
+                return new SuccessDataResult<List<CarDetailsDto>>(result.ToList(), "İstenilen Araba ögesi bulunamadığı için araba detayları listelenemedi.");
             }
         }
     }

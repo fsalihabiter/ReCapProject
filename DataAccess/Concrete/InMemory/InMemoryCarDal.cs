@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
@@ -100,6 +101,16 @@ namespace DataAccess.Concrete.InMemory
         }
 
         bool IEntityRepository<Car>.Delete(Car entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        IDataResult<CarDetailsDto> ICarDal.GetCarDetails(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        IDataResult<List<CarDetailsDto>> ICarDal.GetCarsDetails()
         {
             throw new NotImplementedException();
         }

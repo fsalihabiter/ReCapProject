@@ -1,5 +1,6 @@
 ﻿using Business.Concrete;
 using Core.Entities;
+using Core.Utilities.Results;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -33,13 +34,13 @@ namespace ReCapProject
             switch (tablo)
             {
                 case 1:
-                    ArabaIslem(carManager.GetAll());
+                    ArabaIslem(carManager.GetAll().Data);
                     break;
                 case 2:
-                    MarkaIslem(brandManager.GetAll());
+                    MarkaIslem(brandManager.GetAll().Data);
                     break;
                 case 3:
-                    RenkIslem(colorManager.GetAll());
+                    RenkIslem(colorManager.GetAll().Data);
                     break;
                 default:
                     Console.WriteLine("Bir işlem seçmediniz!!!");
@@ -91,7 +92,7 @@ namespace ReCapProject
                     Console.Write("Açıklaması : ");
                     addedCar.Description = Console.ReadLine();
 
-                    if (!carManager.Insert(addedCar))
+                    if (!carManager.Insert(addedCar).Success)
                     {
                         Console.WriteLine("\nAraba ekleme işlemi tamamlanamadı...\n");
                     }
@@ -105,7 +106,7 @@ namespace ReCapProject
                     Console.Write("Güncellemek istenilen araba id giriniz : ");
 
                     int updatedId = Convert.ToInt32(Console.ReadLine());
-                    Car updatedCar = carManager.Get(c => c.Id == updatedId);
+                    Car updatedCar = carManager.Get(c => c.Id == updatedId) as Car;
                     Console.WriteLine("Güncellenmek istenen Araba Bilgileri : \n" +
                                     $"id: {updatedCar.Id}\n" +
                                     $"Marka id: {updatedCar.BrandId}\n" +
@@ -133,7 +134,7 @@ namespace ReCapProject
                     Console.Write("Açıklaması : ");
                     updatedCar.Description = Console.ReadLine();
 
-                    if (!carManager.Update(updatedCar))
+                    if (!carManager.Update(updatedCar).Success)
                     {
                         Console.WriteLine("\nAraba güncelleme işlemi tamamlanamadı...\n");
                     }
@@ -145,7 +146,7 @@ namespace ReCapProject
                     Console.WriteLine("Silmek istenilen araba id giriniz : ");
 
                     int deletedId = Convert.ToInt32(Console.ReadLine());
-                    Car deletedCar = carManager.Get(c => c.Id == deletedId);
+                    Car deletedCar = carManager.Get(c => c.Id == deletedId).Data;
                     Console.WriteLine("Silinmek istenen Araba Bilgileri : \n" +
                                     $"id: {deletedCar.Id}\n" +
                                     $"Marka id: {deletedCar.BrandId}\n" +
@@ -155,7 +156,7 @@ namespace ReCapProject
                                     $"Günlük Ücreti: {deletedCar.DailyPrice}\n" +
                                     $"Açıklaması: {deletedCar.Description}\n");
 
-                    if (!carManager.Delete(deletedCar))
+                    if (!carManager.Delete(deletedCar).Success)
                     {
                         Console.WriteLine("\nAraba silme işlemi tamamlanamadı...\n");
                     }
@@ -165,7 +166,7 @@ namespace ReCapProject
                 case 4:
                     Console.WriteLine("Tüm arabalar listeleniyor...\n");
 
-                    foreach (var car in carManager.GetCarsDetails())
+                    foreach (var car in carManager.GetCarsDetails().Data)
                     {
                         Console.WriteLine($"{car.Id} - {car.BrandName} - {car.ColorName} - {car.ModelYear} - {car.DailyPrice}");
                     }
@@ -177,15 +178,10 @@ namespace ReCapProject
                     Console.WriteLine("Görüntülenmek istenilen araba id giriniz : ");
 
                     int getId = Convert.ToInt32(Console.ReadLine());
-                    List<CarDetailsDto> getCar = carManager.GetCarDetails(getId);
+                    CarDetailsDto getCar = carManager.GetCarDetails(getId) as CarDetailsDto;
 
-                    if (getCar != null)
-                    {
-                        foreach (var car in getCar)
-                        {
-                            Console.WriteLine($"{car.Id} - {car.BrandName} - {car.ColorName} - {car.ModelYear} - {car.DailyPrice} - {car.Description}");
-                        }
-                    }
+                    Console.WriteLine($"{getCar.Id} - {getCar.BrandName} - {getCar.ColorName} - {getCar.ModelYear} - {getCar.DailyPrice} - {getCar.Description}");
+
                     Console.WriteLine("Araba görüntüleme işlemi tamamlandı...\n");
                     break;
                 default:
@@ -228,7 +224,7 @@ namespace ReCapProject
                     Console.WriteLine("Marka Adı : ");
                     addedBrand.BrandName = Console.ReadLine();
 
-                    if (!brandManager.Insert(addedBrand))
+                    if (!brandManager.Insert(addedBrand).Success)
                     {
                         Console.WriteLine("\nMarka ekleme işlemi tamamlanamadı...\n");
                     }
@@ -240,7 +236,7 @@ namespace ReCapProject
                     Console.WriteLine("Güncellemek istenilen marka id giriniz : ");
 
                     int updatedId = Convert.ToInt32(Console.ReadLine());
-                    Brand updatedBrand = brandManager.Get(updatedId);
+                    Brand updatedBrand = brandManager.Get(b => b.Id == updatedId).Data;
                     Console.WriteLine("Güncellemek istenen Marka Bilgileri : \n" +
                                     $"id: {updatedBrand.Id}\n" +
                                     $"Marka Adı: {updatedBrand.BrandName}\n");
@@ -248,7 +244,7 @@ namespace ReCapProject
                     Console.WriteLine("Marka Adı : ");
                     updatedBrand.BrandName = Console.ReadLine();
 
-                    if (!brandManager.Update(updatedBrand))
+                    if (!brandManager.Update(updatedBrand).Success)
                     {
                         Console.WriteLine("\nMarka güncelleme işlemi tamamlanamadı...\n");
                     }
@@ -260,12 +256,12 @@ namespace ReCapProject
                     Console.WriteLine("Silmek istenilen marka id giriniz : ");
 
                     int deletedId = Convert.ToInt32(Console.ReadLine());
-                    Brand deletedBrand = brandManager.Get(deletedId);
+                    Brand deletedBrand = brandManager.Get(b => b.Id == deletedId).Data;
                     Console.WriteLine("Silinmek istenen Marka Bilgileri : \n" +
                                     $"id: {deletedBrand.Id}\n" +
                                     $"Marka Adı: {deletedBrand.BrandName}\n");
 
-                    if (!brandManager.Delete(deletedBrand))
+                    if (!brandManager.Get(b => b.Id == deletedId).Success)
                     {
                         Console.WriteLine("\nMarka silme işlemi tamamlanamadı...\n");
                     }
@@ -275,7 +271,7 @@ namespace ReCapProject
                 case 4:
                     Console.WriteLine("Tüm markalar listeleniyor...\n");
 
-                    foreach (var brand in brandManager.GetAll())
+                    foreach (var brand in brandManager.GetAll().Data)
                     {
                         Console.WriteLine($"{brand.Id} - {brand.BrandName}");
                     }
@@ -286,7 +282,7 @@ namespace ReCapProject
                     Console.WriteLine("Görüntülenmek istenilen marka id giriniz : ");
 
                     int getId = Convert.ToInt32(Console.ReadLine());
-                    Brand getBrand = brandManager.Get(getId);
+                    Brand getBrand = brandManager.Get(b => b.Id == getId).Data;
 
                     if (getBrand != null)
                     {
@@ -334,7 +330,7 @@ namespace ReCapProject
                     Console.WriteLine("Renk Adı : ");
                     addedColor.ColorName = Console.ReadLine();
 
-                    if (!colorManager.Insert(addedColor))
+                    if (!colorManager.Insert(addedColor).Success)
                     {
                         Console.WriteLine("\nRenk ekleme işlemi tamamlanamadı...\n");
                     }
@@ -346,7 +342,7 @@ namespace ReCapProject
                     Console.WriteLine("Güncellemek istenilen renk id giriniz : ");
 
                     int updatedId = Convert.ToInt32(Console.ReadLine());
-                    Color updatedColor = colorManager.Get(updatedId);
+                    Color updatedColor = colorManager.Get(co => co.Id == updatedId).Data;
                     Console.WriteLine("Güncellenmek istenen Renk Bilgileri : \n" +
                                     $"id: {updatedColor.Id}\n" +
                                     $"Marka Adı: {updatedColor.ColorName}\n");
@@ -354,7 +350,7 @@ namespace ReCapProject
                     Console.WriteLine("Renk Adı : ");
                     updatedColor.ColorName = Console.ReadLine();
 
-                    if (!colorManager.Update(updatedColor))
+                    if (!colorManager.Update(updatedColor).Success)
                     {
                         Console.WriteLine("\nRenk güncelleme işlemi tamamlanamadı...\n");
                     }
@@ -366,12 +362,12 @@ namespace ReCapProject
                     Console.WriteLine("Silmek istenilen renk id giriniz : ");
 
                     int deletedId = Convert.ToInt32(Console.ReadLine());
-                    Color deletedColor = colorManager.Get(deletedId);
+                    Color deletedColor = colorManager.Get(co => co.Id == deletedId).Data;
                     Console.WriteLine("Silinmek istenen Renk Bilgileri : \n" +
                                     $"id: {deletedColor.Id}\n" +
                                     $"Marka Adı: {deletedColor.ColorName}\n");
 
-                    if (!colorManager.Delete(deletedColor))
+                    if (!colorManager.Delete(deletedColor).Success)
                     {
                         Console.WriteLine("\nRenk silme işlemi tamamlanamadı...\n");
                     }
@@ -381,7 +377,7 @@ namespace ReCapProject
                 case 4:
                     Console.WriteLine("Tüm renkler listeleniyor...\n");
 
-                    foreach (var color in colorManager.GetAll())
+                    foreach (var color in colorManager.GetAll().Data)
                     {
                         Console.WriteLine($"{color.Id} - {color.ColorName}");
                     }
@@ -392,7 +388,7 @@ namespace ReCapProject
                     Console.WriteLine("Görüntülenmek istenilen renk id giriniz : ");
 
                     int getId = Convert.ToInt32(Console.ReadLine());
-                    Color getColor = colorManager.Get(getId);
+                    Color getColor = colorManager.Get(co => co.Id == getId).Data;
 
                     if (getColor != null)
                     {

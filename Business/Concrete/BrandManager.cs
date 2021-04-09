@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -17,29 +19,67 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        public Brand Get(int id)
+        public IDataResult<Brand> Get(Expression<Func<Brand, bool>> filter)
         {
-            return _brandDal.Get(b => b.Id == id);
+            if (_brandDal.Get(filter) == null)
+            {
+                return new ErrorDataResult<Brand>(Messages.BrandNotGeted);
+            }
+            return new SuccessDataResult<Brand>(_brandDal.Get(filter), Messages.BrandGeted);
         }
 
-        public List<Brand> GetAll(Expression<Func<Brand, bool>> filter = null)
+        public IDataResult<List<Brand>> GetAll(Expression<Func<Brand, bool>> filter = null)
         {
-            return _brandDal.GetAll(filter);
+            if (filter == null)
+            {
+                if (_brandDal.GetAll().Count <= 0)
+                {
+                    return new ErrorDataResult<List<Brand>>(Messages.BrandNotListed);
+                }
+                return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.BrandNotListed);
+            }
+
+            if (_brandDal.GetAll(filter).Count <= 0)
+            {
+                return new ErrorDataResult<List<Brand>>(Messages.BrandNotListed);
+            }
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(filter), Messages.BrandNotListed);
         }
 
-        public bool Insert(Brand brand)
+        public IResult Insert(Brand brand)
         {
-            return _brandDal.Add(brand);
+            if (brand == null)
+            {
+                return new ErrorResult(Messages.BrandNotAdded);
+            }
+
+            _brandDal.Add(brand);
+
+            return new SuccessResult(Messages.BrandAdded);
         }
 
-        public bool Update(Brand brand)
+        public IResult Update(Brand brand)
         {
-            return _brandDal.Update(brand);
+            if (brand == null)
+            {
+                return new ErrorResult(Messages.BrandNotUpdated);
+            }
+
+            _brandDal.Update(brand);
+
+            return new SuccessResult(Messages.BrandUpdated);
         }
 
-        public bool Delete(Brand brand)
+        public IResult Delete(Brand brand)
         {
-            return _brandDal.Delete(brand);
+            if (brand == null)
+            {
+                return new ErrorResult(Messages.BrandNotDeleted);
+            }
+
+            _brandDal.Delete(brand);
+
+            return new SuccessResult(Messages.BrandDeleted);
         }
     }
 }

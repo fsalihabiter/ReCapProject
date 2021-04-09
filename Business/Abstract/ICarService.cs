@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Utilities.Results;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -8,14 +9,14 @@ namespace Business.Abstract
 {
     public interface ICarService
     {
-        List<Car> GetAll(Expression<Func<Car, bool>> filter = null);
-        Car Get(Expression<Func<Car, bool>> filter = null);
-        List<Car> GetCarsByBrandId(int id);
-        List<Car> GetCarsByColorId(int id);
-        List<Car> GetByDailyPrice(decimal min, decimal max);
-        bool Insert(Car car);
-        bool Update(Car car);
-        bool Delete(Car car);
+        IDataResult<List<Car>> GetAll(Expression<Func<Car, bool>> filter = null);
+        IDataResult<Car> Get(Expression<Func<Car, bool>> filter = null);
+        IDataResult<List<Car>> GetCarsByBrandId(int id);
+        IDataResult<List<Car>> GetCarsByColorId(int id);
+        IDataResult<List<Car>> GetByDailyPrice(decimal min, decimal max);
+        IResult Insert(Car car);
+        IResult Update(Car car);
+        IResult Delete(Car car);
 
     }
 }

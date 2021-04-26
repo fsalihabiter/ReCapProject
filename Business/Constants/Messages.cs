@@ -42,10 +42,57 @@ namespace Business.Constants
         public static string ColorNotUpdated = "Renk güncellenemedi.";
         public static string ColorDeleted = "Renk silindi.";
         public static string ColorNotDeleted = "Renk silinemedi.";
-        public static string ColorListed = "Renklar listelendi.";
-        public static string ColorNotListed = "Renklar listelenemedi.";
+        public static string ColorListed = "Renkler listelendi.";
+        public static string ColorNotListed = "Renkler listelenemedi.";
         public static string ColorGeted = "Renk getirildi.";
         public static string ColorNotGeted = "Renk getirilemedi.";
+
+
+
+        // Kullanıcı sınıfıyla ilgili mesajlar...
+        public static string UserAdded = "Kullanıcı eklendi.";
+        public static string UserNotAdded = "Kullanıcı eklenemedi.";
+        public static string UserUpdated = "Kullanıcı güncellendi.";
+        public static string UserNotUpdated = "Kullanıcı güncellenemedi.";
+        public static string UserDeleted = "Kullanıcı silindi.";
+        public static string UserNotDeleted = "Kullanıcı silinemedi.";
+        public static string UserListed = "Kullanıcılar listelendi.";
+        public static string UserNotListed = "Kullanıcılar listelenemedi.";
+        public static string UserGeted = "Kullanıcı getirildi.";
+        public static string UserNotGeted = "Kullanıcı getirilemedi.";
+
+
+
+        // Müşteri sınıfıyla ilgili mesajlar...
+        public static string CustomerAdded = "Müşteri eklendi.";
+        public static string CustomerNotAdded = "Müşteri eklenemedi.";
+        public static string CustomerUpdated = "Müşteri güncellendi.";
+        public static string CustomerNotUpdated = "Müşteri güncellenemedi.";
+        public static string CustomerDeleted = "Müşteri silindi.";
+        public static string CustomerNotDeleted = "Müşteri silinemedi.";
+        public static string CustomerListed = "Müşteriler listelendi.";
+        public static string CustomerNotListed = "Müşteriler listelenemedi.";
+        public static string CustomerGeted = "Müşteri getirildi.";
+        public static string CustomerNotGeted = "Müşteri getirilemedi.";
+
+
+
+        // Kİralama sınıfıyla ilgili mesajlar...
+        public static string RentalAdded = "Kiralama eklendi.";
+        public static string RentalNotAdded = "Kiralama eklenemedi.";
+        public static string RentalUpdated = "Kiralama güncellendi.";
+        public static string RentalNotUpdated = "Kiralama güncellenemedi.";
+        public static string RentalDeleted = "Kiralama silindi.";
+        public static string RentalNotDeleted = "Kiralama silinemedi.";
+        public static string RentalListed = "Kiralama işlemleri listelendi.";
+        public static string RentalNotListed = "Kiralama işlemleri listelenemedi.";
+        public static string RentalGeted = "Kiralama getirildi.";
+        public static string RentalNotGeted = "Kiralama getirilemedi.";
+        public static string ValueblesInvalid = "Araba teslim tarihi girilmemiş veya aranılan bir araç bulunamamıştır.";
+        public static string ReturnDateAdded = "Araba teslim tarihi eklenmiştir.";
+        public static string ReturnDateNotAdded = "Araba teslim tarihi eklenememiştir.";
+
+
 
         //Genel uyarı mesajları...
         public static string NotFound = "Erişilmek istenen öge bulunmamaktadır.";

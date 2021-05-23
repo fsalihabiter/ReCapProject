@@ -29,6 +29,16 @@ namespace DataAccess.Concrete.InMemory
             }
         }
 
+        public void Update(Car car)
+        {
+            using (CarRentalContext context = new CarRentalContext())
+            {
+                var updatedEntity = context.Entry(car);
+                updatedEntity.State = EntityState.Modified;
+                context.SaveChanges();
+            }
+
+        }
 
         public void Delete(Car car)
         {
@@ -40,7 +50,6 @@ namespace DataAccess.Concrete.InMemory
             }
         }
 
-
         public Car Get(Expression<Func<Car, bool>> filter)
         {
             using (CarRentalContext context = new CarRentalContext())
@@ -49,18 +58,12 @@ namespace DataAccess.Concrete.InMemory
             }
         }
 
-
         public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
         {
             using (CarRentalContext context = new CarRentalContext())
             {
                 return filter == null ? context.Set<Car>().ToList() : context.Set<Car>().Where(filter).ToList();
             }
-        }
-
-        public List<CarDetailsDto> GetCarDetails(int id)
-        {
-            throw new NotImplementedException();
         }
 
         public List<Car> GetCarsByBrandId(int id)
@@ -79,45 +82,15 @@ namespace DataAccess.Concrete.InMemory
             }
         }
 
-        public List<CarDetailsDto> GetCarsDetails()
+        public IDataResult<CarDetailsDto> GetCarDetails(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Car car)
-        {
-            using (CarRentalContext context = new CarRentalContext())
-            {
-                var updatedEntity = context.Entry(car);
-                updatedEntity.State = EntityState.Modified;
-                context.SaveChanges();
-            }
-
-        }
-
-        bool IEntityRepository<Car>.Add(Car entity)
+        public IDataResult<List<CarDetailsDto>> GetCarsDetails()
         {
             throw new NotImplementedException();
         }
 
-        bool IEntityRepository<Car>.Delete(Car entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        IDataResult<CarDetailsDto> ICarDal.GetCarDetails(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        IDataResult<List<CarDetailsDto>> ICarDal.GetCarsDetails()
-        {
-            throw new NotImplementedException();
-        }
-
-        bool IEntityRepository<Car>.Update(Car entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

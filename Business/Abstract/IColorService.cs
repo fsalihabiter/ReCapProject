@@ -11,7 +11,7 @@ namespace Business.Abstract
     {
         IDataResult<List<Color>> GetAll(Expression<Func<Color, bool>> filter = null);
         IDataResult<Color> Get(Expression<Func<Color, bool>> filter);
-        IResult Insert(Color color);
+        IResult Add(Color color);
         IResult Update(Color color);
         IResult Delete(Color color);
     }

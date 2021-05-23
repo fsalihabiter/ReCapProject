@@ -11,7 +11,7 @@ namespace Business.Abstract
     {
         IDataResult<List<Rental>> GetAll(Expression<Func<Rental, bool>> filter = null);
         IDataResult<Rental> Get(Expression<Func<Rental, bool>> filter);
-        IResult Insert(Rental rental);
+        IResult Add(Rental rental);
         IResult Update(Rental rental);
         IResult Delete(Rental rental);
         IResult ReturnCarAdded(Rental rental, DateTime returnDate);

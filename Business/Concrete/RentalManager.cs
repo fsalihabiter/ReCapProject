@@ -22,38 +22,26 @@ namespace Business.Concrete
 
         public IResult Delete(Rental rental)
         {
-            if (_rentalDal.Delete(rental))
-            {
-                return new SuccessResult(Messages.RentalDeleted);
-            }
-            return new ErrorResult(Messages.RentalNotDeleted);
+            _rentalDal.Delete(rental);
+            return new SuccessResult(Messages.RentalDeleted);
         }
 
         public IDataResult<Rental> Get(Expression<Func<Rental, bool>> filter)
         {
-            if (_rentalDal.Get(filter) == null)
-            {
-                return new ErrorDataResult<Rental>(Messages.RentalNotGeted);
-            }
             return new SuccessDataResult<Rental>(_rentalDal.Get(filter), Messages.RentalGeted);
         }
 
         public IDataResult<List<Rental>> GetAll(Expression<Func<Rental, bool>> filter = null)
         {
-            if (_rentalDal.GetAll(filter).Count() <= 0)
-            {
-                return new ErrorDataResult<List<Rental>>(Messages.RentalNotListed);
-            }
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(filter), Messages.RentalListed);
+            return filter == null
+                ? new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalNotListed)
+                : new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(filter), Messages.RentalListed);
         }
 
-        public IResult Insert(Rental rental)
+        public IResult Add(Rental rental)
         {
-            if (_rentalDal.Add(rental))
-            {
-                return new SuccessResult(Messages.RentalAdded);
-            }
-            return new ErrorResult(Messages.RentalNotAdded);
+            _rentalDal.Add(rental);
+            return new SuccessResult(Messages.RentalAdded);
         }
 
         public IResult ReturnCarAdded(Rental rental, DateTime returnDate)
@@ -61,23 +49,16 @@ namespace Business.Concrete
             if (returnDate != null && rental != null)
             {
                 rental.ReturnDate = returnDate;
-                var result = Update(rental);
-                if (result.Success)
-                {
-                    return new SuccessResult(Messages.ReturnDateAdded);
-                }
-                return new ErrorResult(Messages.ReturnDateNotAdded);
+                _rentalDal.Update(rental);
+                return new SuccessResult(Messages.ReturnDateAdded);
             }
             return new ErrorResult(Messages.ValueblesInvalid);
         }
 
         public IResult Update(Rental rental)
         {
-            if (_rentalDal.Update(rental))
-            {
-                return new SuccessResult(Messages.RentalUpdated);
-            }
-            return new ErrorResult(Messages.RentalNotUpdated);
+            _rentalDal.Update(rental);
+            return new SuccessResult(Messages.RentalUpdated);
         }
     }
 }

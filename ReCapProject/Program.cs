@@ -106,7 +106,7 @@ namespace ReCapProject
                     Console.Write("Açıklaması : ");
                     addedCar.Description = Console.ReadLine();
 
-                    if (!carManager.Insert(addedCar).Success)
+                    if (!carManager.Add(addedCar).Success)
                     {
                         Console.WriteLine("\nAraba ekleme işlemi tamamlanamadı...\n");
                     }
@@ -236,7 +236,7 @@ namespace ReCapProject
                     Console.WriteLine("Marka Adı : ");
                     addedBrand.BrandName = Console.ReadLine();
 
-                    if (!brandManager.Insert(addedBrand).Success)
+                    if (!brandManager.Add(addedBrand).Success)
                     {
                         Console.WriteLine("\nMarka ekleme işlemi tamamlanamadı...\n");
                     }
@@ -340,7 +340,7 @@ namespace ReCapProject
                     Console.WriteLine("Renk Adı : ");
                     addedColor.ColorName = Console.ReadLine();
 
-                    if (!colorManager.Insert(addedColor).Success)
+                    if (!colorManager.Add(addedColor).Success)
                     {
                         Console.WriteLine("\nRenk ekleme işlemi tamamlanamadı...\n");
                     }
@@ -453,7 +453,7 @@ namespace ReCapProject
                     Console.WriteLine("Şifre : ");
                     addedUser.Password = Console.ReadLine();
 
-                    if (!userManager.Insert(addedUser).Success)
+                    if (!userManager.Add(addedUser).Success)
                     {
                         Console.WriteLine("\nRenk ekleme işlemi tamamlanamadı...\n");
                     }
@@ -573,7 +573,7 @@ namespace ReCapProject
                     Console.WriteLine("Müşteri Adı : ");
                     addedCustomer.CompanyName = Console.ReadLine();
 
-                    if (!customerManager.Insert(addedCustomer).Success)
+                    if (!customerManager.Add(addedCustomer).Success)
                     {
                         Console.WriteLine("\nMüşteri ekleme işlemi tamamlanamadı...\n");
                     }
@@ -689,7 +689,7 @@ namespace ReCapProject
                     Console.WriteLine("Araç Teslim Tarihi: ");
                     addedRental.ReturnDate = Convert.ToDateTime(Console.ReadLine());
 
-                    if (!rentalManager.Insert(addedRental).Success)
+                    if (!rentalManager.Add(addedRental).Success)
                     {
                         Console.WriteLine("\nAraç Kiralama ekleme işlemi tamamlanamadı...\n");
                     }

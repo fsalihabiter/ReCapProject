@@ -37,9 +37,9 @@ namespace DataAccess.Concrete.EntityFramework
                 CarDetailsDto carDTO = result.FirstOrDefault();
                 if (carDTO == null)
                 {
-                    return new ErrorDataResult<CarDetailsDto>("İstenilen Araba ögesi bulunamadığı için araba detayları listelenemedi.");
+                    return new ErrorDataResult<CarDetailsDto>("İstenilen öge bulunamadığı için araba detayları listelenemedi.");
                 }
-                return new SuccessDataResult<CarDetailsDto>(carDTO, "İstenilen Araba ögesi bulunamadığı için araba detayları listelenemedi.");
+                return new SuccessDataResult<CarDetailsDto>(carDTO, "İstenilen öge bulunamadığı için araba detayları listelenemedi.");
             }
         }
 

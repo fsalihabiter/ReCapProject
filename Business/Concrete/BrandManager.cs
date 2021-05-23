@@ -46,7 +46,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(filter), Messages.BrandNotListed);
         }
 
-        public IResult Insert(Brand brand)
+        public IResult Add(Brand brand)
         {
             if (brand == null)
             {

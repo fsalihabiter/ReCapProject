@@ -23,59 +23,40 @@ namespace Business.Concrete
 
         public IDataResult<Car> Get(Expression<Func<Car, bool>> filter)
         {
-            if (_carDal.Get(filter) == null)
-            {
-                return new ErrorDataResult<Car>(Messages.CarNotGeted);
-            }
             return new SuccessDataResult<Car>(_carDal.Get(filter), Messages.CarGeted);
         }
 
         public IDataResult<List<Car>> GetAll(Expression<Func<Car, bool>> filter = null)
         {
-            if (_carDal.GetAll(filter).Count() <= 0)
-            {
-                return new ErrorDataResult<List<Car>>(Messages.CarAllNotListed);
-            }
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(filter), Messages.CarAllListed);
+            return filter == null
+                ? new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarAllNotListed)
+                : new SuccessDataResult<List<Car>>(_carDal.GetAll(filter), Messages.CarAllListed);
         }
 
         public IDataResult<List<Car>> GetByDailyPrice(decimal min, decimal max)
         {
-            if (min < max)
+            if (min > max)
             {
                 return new ErrorDataResult<List<Car>>(Messages.CarDailyPrice);
             }
-            else if (_carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max).Count() <= 0)
+            else
             {
-                return new ErrorDataResult<List<Car>>(Messages.CarAllNotListed);
+                return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max), Messages.CarAllListed);
             }
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max), Messages.CarAllListed);
         }
 
         public IDataResult<List<Car>> GetCarsByBrandId(int id)
         {
-            if (_carDal.GetAll(c => c.BrandId == id).Count() <= 0)
-            {
-                return new ErrorDataResult<List<Car>>("Marka bulunamadığı için markaya ait arabalar listelenemedi.");
-            }
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id), "Markaya ait arabalar listelendi.");
         }
 
         public IDataResult<List<Car>> GetCarsByColorId(int id)
         {
-            if (_carDal.GetAll(c => c.ColorId == id).Count() <= 0)
-            {
-                return new ErrorDataResult<List<Car>>("Renk bulunamadığı için renge göre arabalar listelenemedi.");
-            }
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id), "Seçilen renge göre arabalar listelendi.");
         }
 
         public IDataResult<List<CarDetailsDto>> GetCarsDetails()
         {
-            if (_carDal.GetCarsDetails().Data.Count() <= 0)
-            {
-                return new ErrorDataResult<List<CarDetailsDto>>("Arabaların detayları listelenemedi.");
-            }
             return new SuccessDataResult<List<CarDetailsDto>>(_carDal.GetCarsDetails().Data, "Arabaların detayları listelendi.");
         }
 
@@ -87,7 +68,8 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<CarDetailsDto>(_carDal.GetCarDetails(id).Data, "Arabanın detayları listelendi.");
         }
-        public IResult Insert(Car car)
+
+        public IResult Add(Car car)
         {
             if (car.CarName.Length > 2 && car.DailyPrice > 0)
             {
@@ -99,20 +81,14 @@ namespace Business.Concrete
 
         public IResult Update(Car car)
         {
-            if (_carDal.Update(car))
-            {
-                return new SuccessResult(Messages.CarUpdated);
-            }
-            return new ErrorResult(Messages.CarNotUpdated);
+            _carDal.Update(car);
+            return new SuccessResult(Messages.CarUpdated);
         }
 
         public IResult Delete(Car car)
         {
-            if (_carDal.Delete(car))
-            {
-                return new SuccessResult(Messages.CarDeleted);
-            }
-            return new ErrorResult(Messages.CarNotDeleted);
+            _carDal.Delete(car);
+            return new SuccessResult(Messages.CarDeleted);
         }
     }
 }

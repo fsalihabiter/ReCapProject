@@ -12,33 +12,23 @@ namespace Core.DataAccess.EntityFramework
         where TEntity : class, IEntity, new()
         where TContext : DbContext, new()
     {
-        public bool Add(TEntity entity)
+        public void Add(TEntity entity)
         {
             using (TContext context = new TContext())
             {
                 var addedEntity = context.Entry(entity);
                 addedEntity.State = EntityState.Added;
-                int result = context.SaveChanges();
-                if (result == 0)
-                {
-                    return false;
-                }
-                return true;
+                context.SaveChanges();
             }
         }
 
-        public bool Delete(TEntity entity)
+        public void Delete(TEntity entity)
         {
             using (TContext context = new TContext())
             {
                 var deletedEntity = context.Entry(entity);
                 deletedEntity.State = EntityState.Deleted;
-                int result = context.SaveChanges();
-                if (result == 0)
-                {
-                    return false;
-                }
-                return true;
+                context.SaveChanges();
             }
         }
 
@@ -58,18 +48,13 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
-        public bool Update(TEntity entity)
+        public void Update(TEntity entity)
         {
             using (TContext context = new TContext())
             {
                 var updatedEntity = context.Entry(entity);
                 updatedEntity.State = EntityState.Modified;
-                int result = context.SaveChanges();
-                if (result == 0)
-                {
-                    return false;
-                }
-                return true;
+                context.SaveChanges();
             }
         }
     }

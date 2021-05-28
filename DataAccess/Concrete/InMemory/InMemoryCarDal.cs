@@ -92,5 +92,29 @@ namespace DataAccess.Concrete.InMemory
             throw new NotImplementedException();
         }
 
+        public IDataResult<List<CarDetailsDto>> GetGetByDailyPrice(decimal min, decimal max)
+        {
+            throw new NotImplementedException();
+        }
+
+        IDataResult<List<CarDetailsDto>> ICarDal.GetCarsByBrandId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        IDataResult<List<CarDetailsDto>> ICarDal.GetCarsByColorId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Car> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Car Get(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

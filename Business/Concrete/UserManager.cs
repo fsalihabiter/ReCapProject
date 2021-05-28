@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidator;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -26,24 +28,24 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserDeleted);
         }
 
-        public IDataResult<User> Get(Expression<Func<User, bool>> filter)
+        public IDataResult<User> Get(int id)
         {
-            return new SuccessDataResult<User>(_userDal.Get(filter), Messages.UserGeted);
+            return new SuccessDataResult<User>(_userDal.Get(id), Messages.UserGeted);
         }
 
-        public IDataResult<List<User>> GetAll(Expression<Func<User, bool>> filter = null)
+        public IDataResult<List<User>> GetAll()
         {
-                return filter == null
-                    ? new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UserNotListed)
-                    : new SuccessDataResult<List<User>>(_userDal.GetAll(filter), Messages.UserListed);
+                return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UserNotListed);
         }
 
+        [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User user)
         {
             _userDal.Add(user);
             return new SuccessResult(Messages.UserAdded);
         }
 
+        [ValidationAspect(typeof(UserValidator))]
         public IResult Update(User user)
         {
             _userDal.Update(user);

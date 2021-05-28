@@ -13,5 +13,9 @@ namespace DataAccess.Abstract
     {
         IDataResult<List<CarDetailsDto>> GetCarsDetails();
         IDataResult<CarDetailsDto> GetCarDetails(int id);
+        IDataResult<List<CarDetailsDto>> GetGetByDailyPrice(decimal min, decimal max);
+        IDataResult<List<CarDetailsDto>> GetCarsByBrandId(int id);
+        IDataResult<List<CarDetailsDto>> GetCarsByColorId(int id);
+
     }
 }

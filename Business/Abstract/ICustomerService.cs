@@ -9,8 +9,8 @@ namespace Business.Abstract
 {
     public interface ICustomerService
     {
-        IDataResult<List<Customer>> GetAll(Expression<Func<Customer, bool>> filter = null);
-        IDataResult<Customer> Get(Expression<Func<Customer, bool>> filter);
+        IDataResult<List<Customer>> GetAll();
+        IDataResult<Customer> Get(int id);
         IResult Add(Customer customer);
         IResult Update(Customer customer);
         IResult Delete(Customer customer);

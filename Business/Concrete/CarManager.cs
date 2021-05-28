@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidator;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -21,38 +23,36 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public IDataResult<Car> Get(Expression<Func<Car, bool>> filter)
+        public IDataResult<Car> Get(int id)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(filter), Messages.CarGeted);
+            return new SuccessDataResult<Car>(_carDal.Get(id), Messages.CarGeted);
         }
 
-        public IDataResult<List<Car>> GetAll(Expression<Func<Car, bool>> filter = null)
+        public IDataResult<List<Car>> GetAll()
         {
-            return filter == null
-                ? new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarAllNotListed)
-                : new SuccessDataResult<List<Car>>(_carDal.GetAll(filter), Messages.CarAllListed);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarAllNotListed);
         }
 
-        public IDataResult<List<Car>> GetByDailyPrice(decimal min, decimal max)
+        public IDataResult<List<CarDetailsDto>> GetByDailyPrice(decimal min, decimal max)
         {
             if (min > max)
             {
-                return new ErrorDataResult<List<Car>>(Messages.CarDailyPrice);
+                return new ErrorDataResult<List<CarDetailsDto>>(Messages.CarDailyPrice);
             }
             else
             {
-                return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max), Messages.CarAllListed);
+                return new SuccessDataResult<List<CarDetailsDto>>(_carDal.GetGetByDailyPrice(min, max).Data, Messages.CarAllListed);
             }
         }
 
-        public IDataResult<List<Car>> GetCarsByBrandId(int id)
+        public IDataResult<List<CarDetailsDto>> GetCarsByBrandId(int id)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id), "Markaya ait arabalar listelendi.");
+            return new SuccessDataResult<List<CarDetailsDto>>(_carDal.GetCarsByBrandId(id).Data, "Markaya ait arabalar listelendi.");
         }
 
-        public IDataResult<List<Car>> GetCarsByColorId(int id)
+        public IDataResult<List<CarDetailsDto>> GetCarsByColorId(int id)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id), "Seçilen renge göre arabalar listelendi.");
+            return new SuccessDataResult<List<CarDetailsDto>>(_carDal.GetCarsByColorId(id).Data, "Seçilen renge göre arabalar listelendi.");
         }
 
         public IDataResult<List<CarDetailsDto>> GetCarsDetails()
@@ -69,6 +69,7 @@ namespace Business.Concrete
             return new SuccessDataResult<CarDetailsDto>(_carDal.GetCarDetails(id).Data, "Arabanın detayları listelendi.");
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
             if (car.CarName.Length > 2 && car.DailyPrice > 0)
@@ -79,6 +80,8 @@ namespace Business.Concrete
             return new ErrorResult(Messages.CarNotAdded);
         }
 
+
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {
             _carDal.Update(car);

@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidator;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -26,24 +28,24 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalDeleted);
         }
 
-        public IDataResult<Rental> Get(Expression<Func<Rental, bool>> filter)
+        public IDataResult<Rental> Get(int id)
         {
-            return new SuccessDataResult<Rental>(_rentalDal.Get(filter), Messages.RentalGeted);
+            return new SuccessDataResult<Rental>(_rentalDal.Get(id), Messages.RentalGeted);
         }
 
-        public IDataResult<List<Rental>> GetAll(Expression<Func<Rental, bool>> filter = null)
+        public IDataResult<List<Rental>> GetAll()
         {
-            return filter == null
-                ? new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalNotListed)
-                : new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(filter), Messages.RentalListed);
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalNotListed);
         }
 
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
             _rentalDal.Add(rental);
             return new SuccessResult(Messages.RentalAdded);
         }
 
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult ReturnCarAdded(Rental rental, DateTime returnDate)
         {
             if (returnDate != null && rental != null)
@@ -55,6 +57,7 @@ namespace Business.Concrete
             return new ErrorResult(Messages.ValueblesInvalid);
         }
 
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);

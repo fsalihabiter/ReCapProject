@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidator;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -19,33 +21,25 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        public IDataResult<Brand> Get(Expression<Func<Brand, bool>> filter)
+        public IDataResult<Brand> Get(int id)
         {
-            if (_brandDal.Get(filter) == null)
+            if (_brandDal.Get(id) == null)
             {
                 return new ErrorDataResult<Brand>(Messages.BrandNotGeted);
             }
-            return new SuccessDataResult<Brand>(_brandDal.Get(filter), Messages.BrandGeted);
+            return new SuccessDataResult<Brand>(_brandDal.Get(id), Messages.BrandGeted);
         }
 
-        public IDataResult<List<Brand>> GetAll(Expression<Func<Brand, bool>> filter = null)
+        public IDataResult<List<Brand>> GetAll()
         {
-            if (filter == null)
-            {
-                if (_brandDal.GetAll().Count <= 0)
-                {
-                    return new ErrorDataResult<List<Brand>>(Messages.BrandNotListed);
-                }
-                return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.BrandNotListed);
-            }
-
-            if (_brandDal.GetAll(filter).Count <= 0)
+            if (_brandDal.GetAll().Count <= 0)
             {
                 return new ErrorDataResult<List<Brand>>(Messages.BrandNotListed);
             }
-            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(filter), Messages.BrandNotListed);
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.BrandNotListed);
         }
 
+        [ValidationAspect(typeof(BrandValidator))]
         public IResult Add(Brand brand)
         {
             if (brand == null)
@@ -58,6 +52,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.BrandAdded);
         }
 
+        [ValidationAspect(typeof(BrandValidator))]
         public IResult Update(Brand brand)
         {
             if (brand == null)

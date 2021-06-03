@@ -97,5 +97,10 @@ namespace Business.Constants
         //Genel uyarı mesajları...
         public static string NotFound = "Erişilmek istenen öge bulunmamaktadır.";
 
+        public static string[] ValidImageFileTypes = { ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF", ".GIF", ".BMP", ".ICO" };
+        public static string ImageLimitExpiredForCar = "Bir arabaya maximum 5 fotoğraf eklenebilir";
+        public static string InvalidImageExtension = "Geçersiz dosya uzantısı, fotoğraf için kabul edilen uzantılar" + string.Join(",", ValidImageFileTypes);
+        public static string CarImageMustBeExists = "Böyle bi resim bulunamadı";
+        public static string CarHaveNoImage = "Arabaya ait bi resim yok";
     }
 }

@@ -23,11 +23,12 @@ namespace Business.Concrete
 
         public IDataResult<Brand> Get(int id)
         {
-            if (_brandDal.Get(id) == null)
+            var result = _brandDal.Get(b => b.Id == id);
+            if (result == null)
             {
                 return new ErrorDataResult<Brand>(Messages.BrandNotGeted);
             }
-            return new SuccessDataResult<Brand>(_brandDal.Get(id), Messages.BrandGeted);
+            return new SuccessDataResult<Brand>(result, Messages.BrandGeted);
         }
 
         public IDataResult<List<Brand>> GetAll()

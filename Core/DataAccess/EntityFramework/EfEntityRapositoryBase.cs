@@ -32,19 +32,21 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
-        public TEntity Get(int id)
+        public TEntity Get(Expression<Func<TEntity, bool>> filter)
         {
             using (TContext context = new TContext())
             {
-                return context.Set<TEntity>().Find(id);
+                return context.Set<TEntity>().SingleOrDefault(filter);
             }
         }
 
-        public List<TEntity> GetAll()
+        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
             using (TContext context = new TContext())
             {
-                return context.Set<TEntity>().ToList();
+                return filter == null
+                    ? context.Set<TEntity>().ToList()
+                    : context.Set<TEntity>().Where(filter).ToList();
             }
         }
 

@@ -120,7 +120,7 @@ namespace ReCapProject
                     Console.Write("Güncellemek istenilen araba id giriniz : ");
 
                     int updatedId = Convert.ToInt32(Console.ReadLine());
-                    Car updatedCar = carManager.Get(c => c.Id == updatedId) as Car;
+                    Car updatedCar = carManager.Get(updatedId) as Car;
                     Console.WriteLine("Güncellenmek istenen Araba Bilgileri : \n" +
                                     $"id: {updatedCar.Id}\n" +
                                     $"Marka id: {updatedCar.BrandId}\n" +
@@ -160,7 +160,7 @@ namespace ReCapProject
                     Console.WriteLine("Silmek istenilen araba id giriniz : ");
 
                     int deletedId = Convert.ToInt32(Console.ReadLine());
-                    Car deletedCar = carManager.Get(c => c.Id == deletedId).Data;
+                    Car deletedCar = carManager.Get(deletedId).Data;
                     Console.WriteLine("Silinmek istenen Araba Bilgileri : \n" +
                                     $"id: {deletedCar.Id}\n" +
                                     $"Marka id: {deletedCar.BrandId}\n" +
@@ -248,7 +248,7 @@ namespace ReCapProject
                     Console.WriteLine("Güncellemek istenilen marka id giriniz : ");
 
                     int updatedId = Convert.ToInt32(Console.ReadLine());
-                    Brand updatedBrand = brandManager.Get(b => b.Id == updatedId).Data;
+                    Brand updatedBrand = brandManager.Get(updatedId).Data;
                     Console.WriteLine("Güncellemek istenen Marka Bilgileri : \n" +
                                     $"id: {updatedBrand.Id}\n" +
                                     $"Marka Adı: {updatedBrand.BrandName}\n");
@@ -268,12 +268,12 @@ namespace ReCapProject
                     Console.WriteLine("Silmek istenilen marka id giriniz : ");
 
                     int deletedId = Convert.ToInt32(Console.ReadLine());
-                    Brand deletedBrand = brandManager.Get(b => b.Id == deletedId).Data;
+                    Brand deletedBrand = brandManager.Get(deletedId).Data;
                     Console.WriteLine("Silinmek istenen Marka Bilgileri : \n" +
                                     $"id: {deletedBrand.Id}\n" +
                                     $"Marka Adı: {deletedBrand.BrandName}\n");
 
-                    if (!brandManager.Get(b => b.Id == deletedId).Success)
+                    if (!brandManager.Get(deletedId).Success)
                     {
                         Console.WriteLine("\nMarka silme işlemi tamamlanamadı...\n");
                     }
@@ -294,7 +294,7 @@ namespace ReCapProject
                     Console.WriteLine("Görüntülenmek istenilen marka id giriniz : ");
 
                     int getId = Convert.ToInt32(Console.ReadLine());
-                    Brand getBrand = brandManager.Get(b => b.Id == getId).Data;
+                    Brand getBrand = brandManager.Get(getId).Data;
 
                     if (getBrand != null)
                     {
@@ -352,7 +352,7 @@ namespace ReCapProject
                     Console.WriteLine("Güncellemek istenilen renk id giriniz : ");
 
                     int updatedId = Convert.ToInt32(Console.ReadLine());
-                    Color updatedColor = colorManager.Get(co => co.Id == updatedId).Data;
+                    Color updatedColor = colorManager.Get(updatedId).Data;
                     Console.WriteLine("Güncellenmek istenen Renk Bilgileri : \n" +
                                     $"id: {updatedColor.Id}\n" +
                                     $"Renk Adı: {updatedColor.ColorName}\n");
@@ -372,7 +372,7 @@ namespace ReCapProject
                     Console.WriteLine("Silmek istenilen renk id giriniz : ");
 
                     int deletedId = Convert.ToInt32(Console.ReadLine());
-                    Color deletedColor = colorManager.Get(co => co.Id == deletedId).Data;
+                    Color deletedColor = colorManager.Get(deletedId).Data;
                     Console.WriteLine("Silinmek istenen Renk Bilgileri : \n" +
                                     $"id: {deletedColor.Id}\n" +
                                     $"Marka Adı: {deletedColor.ColorName}\n");
@@ -398,7 +398,7 @@ namespace ReCapProject
                     Console.WriteLine("Görüntülenmek istenilen renk id giriniz : ");
 
                     int getId = Convert.ToInt32(Console.ReadLine());
-                    Color getColor = colorManager.Get(co => co.Id == getId).Data;
+                    Color getColor = colorManager.Get(getId).Data;
 
                     if (getColor != null)
                     {
@@ -465,7 +465,7 @@ namespace ReCapProject
                     Console.WriteLine("Güncellemek istenilen kullanıcı id giriniz : ");
 
                     int updatedId = Convert.ToInt32(Console.ReadLine());
-                    User updatedUser = userManager.Get(u => u.Id == updatedId).Data;
+                    User updatedUser = userManager.Get(updatedId).Data;
                     Console.WriteLine("Güncellenmek istenen Kullanıcı Bilgileri : \n" +
                                     $"id: {updatedUser.Id}\n" +
                                     $"Adı: {updatedUser.FirstName}\n" +
@@ -496,7 +496,7 @@ namespace ReCapProject
                     Console.WriteLine("Silmek istenilen kullanıcı id giriniz : ");
 
                     int deletedId = Convert.ToInt32(Console.ReadLine());
-                    User deletedUser = userManager.Get(u => u.Id == deletedId).Data;
+                    User deletedUser = userManager.Get(deletedId).Data;
                     Console.WriteLine("Silinmek istenen Kullanıcı Bilgileri : \n" +
                                     $"id: {deletedUser.Id}\n" +
                                     $"Adı: {deletedUser.FirstName}\n" +
@@ -524,7 +524,7 @@ namespace ReCapProject
                     Console.WriteLine("Görüntülenmek istenilen renk id giriniz : ");
 
                     int getId = Convert.ToInt32(Console.ReadLine());
-                    User getUser = userManager.Get(u => u.Id == getId).Data;
+                    User getUser = userManager.Get(getId).Data;
 
                     if (getUser != null)
                     {
@@ -585,7 +585,7 @@ namespace ReCapProject
                     Console.WriteLine("Güncellemek istenilen müşteri id giriniz : ");
 
                     int updatedId = Convert.ToInt32(Console.ReadLine());
-                    Customer updatedCustomer = customerManager.Get(cu => cu.Id == updatedId).Data;
+                    Customer updatedCustomer = customerManager.Get(updatedId).Data;
                     Console.WriteLine("Güncellenmek istenen Müşteri Bilgileri : \n" +
                                     $"id: {updatedCustomer.Id}\n" +
                                     $"Kullanıcı Id: {updatedCustomer.UserId}\n" +
@@ -609,7 +609,7 @@ namespace ReCapProject
                     Console.WriteLine("Silmek istenilen müşteri id giriniz : ");
 
                     int deletedId = Convert.ToInt32(Console.ReadLine());
-                    Customer deletedCustomer = customerManager.Get(co => co.Id == deletedId).Data;
+                    Customer deletedCustomer = customerManager.Get(deletedId).Data;
                     Console.WriteLine("Silinmek istenen Müşteri Bilgileri : \n" +
                                     $"id: {deletedCustomer.Id}\n" +
                                     $"Kullanıcı Id: {deletedCustomer.UserId}\n" +
@@ -627,7 +627,7 @@ namespace ReCapProject
 
                     foreach (var customer in customerManager.GetAll().Data)
                     {
-                        User user = userManager.Get(u => u.Id == customer.UserId).Data;
+                        User user = userManager.Get(customer.UserId).Data;
                         Console.WriteLine($"{customer.Id} - {user.FirstName} {user.FirstName}{customer.CompanyName}");
                     }
                     Console.WriteLine("Tüm müşteriler listelendi...\n");
@@ -637,7 +637,7 @@ namespace ReCapProject
                     Console.WriteLine("Görüntülenmek istenilen müşteri id giriniz : ");
 
                     int getId = Convert.ToInt32(Console.ReadLine());
-                    Customer getCustomer = customerManager.Get(co => co.Id == getId).Data;
+                    Customer getCustomer = customerManager.Get(getId).Data;
 
                     if (getCustomer != null)
                     {
@@ -701,7 +701,7 @@ namespace ReCapProject
                     Console.WriteLine("Güncellemek istenilen araç kiralama id giriniz : ");
 
                     int updatedId = Convert.ToInt32(Console.ReadLine());
-                    Rental updatedRental = rentalManager.Get(co => co.Id == updatedId).Data;
+                    Rental updatedRental = rentalManager.Get(updatedId).Data;
                     Console.WriteLine("Güncellenmek istenen Araç Kiralama Bilgileri : \n" +
                                     $"id: {updatedRental.Id}\n" +
                                     $"Müşteri Id: {updatedRental.CustomerId}\n" +
@@ -730,7 +730,7 @@ namespace ReCapProject
                     Console.WriteLine("Silmek istenilen araç kiralama id giriniz : ");
 
                     int deletedId = Convert.ToInt32(Console.ReadLine());
-                    Rental deletedRental = rentalManager.Get(co => co.Id == deletedId).Data;
+                    Rental deletedRental = rentalManager.Get(deletedId).Data;
                     Console.WriteLine("Silinmek istenen Araç Kiralama Bilgileri : \n" +
                                     $"id: {deletedRental.Id}\n" +
                                     $"Müşteri Id: {deletedRental.CustomerId}\n" +
@@ -749,7 +749,7 @@ namespace ReCapProject
 
                     foreach (var rental in rentalManager.GetAll().Data)
                     {
-                        Customer customer = customerManager.Get(c => c.Id == rental.CustomerId).Data;
+                        Customer customer = customerManager.Get(rental.CustomerId).Data;
                         Console.WriteLine($"{rental.Id} - {customer.CompanyName} - {rental.RentDate} - {rental.ReturnDate}");
                     }
                     Console.WriteLine("Tüm araç kiralamalar listelendi...\n");
@@ -759,11 +759,11 @@ namespace ReCapProject
                     Console.WriteLine("Görüntülenmek istenilen araç kiralama id giriniz : ");
 
                     int getId = Convert.ToInt32(Console.ReadLine());
-                    Rental getRental = rentalManager.Get(co => co.Id == getId).Data;
+                    Rental getRental = rentalManager.Get(getId).Data;
 
                     if (getRental != null)
                     {
-                        Customer customer = customerManager.Get(c => c.Id == getRental.CustomerId).Data;
+                        Customer customer = customerManager.Get(getRental.CustomerId).Data;
                         Console.WriteLine($"{getRental.Id} - {customer.CompanyName} - {getRental.RentDate} - {getRental.ReturnDate}");
                     }
                     Console.WriteLine("Bir araç kiralama getirme işlemi tamamlandı...\n");

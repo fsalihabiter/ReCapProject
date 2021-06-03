@@ -30,7 +30,7 @@ namespace Business.Concrete
 
         public IDataResult<Rental> Get(int id)
         {
-            return new SuccessDataResult<Rental>(_rentalDal.Get(id), Messages.RentalGeted);
+            return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.Id == id), Messages.RentalGeted);
         }
 
         public IDataResult<List<Rental>> GetAll()

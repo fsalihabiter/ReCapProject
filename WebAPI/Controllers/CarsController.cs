@@ -6,6 +6,7 @@ using Business.Abstract;
 using Business.ValidationRules.FluentValidator;
 using Core.Aspects.Autofac.Validation;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,7 @@ namespace WebAPI.Controllers
             _carService = carService;
         }
 
-
+        [Authorize()]
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
@@ -34,6 +35,8 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+
+        [Authorize()]
         [HttpGet("getbyid")]
         public IActionResult GetById(int Id)
         {
@@ -100,6 +103,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [Authorize(Roles = "Car.Added")]
         [HttpPost("add")]
         public IActionResult Add(Car car)
         {
@@ -111,6 +115,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [Authorize(Roles = "Car.Updated")]
         [HttpPost("update")]
         public IActionResult Update(Car car)
         {

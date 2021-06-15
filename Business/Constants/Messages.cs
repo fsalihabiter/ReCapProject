@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -102,5 +103,12 @@ namespace Business.Constants
         public static string InvalidImageExtension = "Geçersiz dosya uzantısı, fotoğraf için kabul edilen uzantılar" + string.Join(",", ValidImageFileTypes);
         public static string CarImageMustBeExists = "Böyle bi resim bulunamadı";
         public static string CarHaveNoImage = "Arabaya ait bi resim yok";
+
+        public static string SuccessUserRegistered = "Kullanıcı başaırıyla kayıt edildi.";
+        public static string UserNotFound = "Kullanıcı bulunamadı !";
+        public static string PasswordError = "Parola hatalı girildi !";
+        public static string SuccessUserLogin = "Kullanıcı başarıyla giriş yaptı.";
+        public static string UserAlreadyExists = "Kullanıcı mevcutta bulunmaktadır.";
+        public static string CreatedToken = "Token oluşturuldu.";
     }
 }

@@ -1,4 +1,4 @@
-﻿using Entities.Concrete;
+﻿using Entities.DTOs;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Business.ValidationRules.FluentValidator
 {
-    public class UserValidator : AbstractValidator<User>
+    public class UserValidator : AbstractValidator<UserForRegisterDto>
     {
         public UserValidator()
         {

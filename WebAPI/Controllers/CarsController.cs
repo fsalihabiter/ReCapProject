@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.ValidationRules.FluentValidator;
 using Core.Aspects.Autofac.Validation;
 using Entities.Concrete;
@@ -23,7 +24,7 @@ namespace WebAPI.Controllers
             _carService = carService;
         }
 
-        [Authorize()]
+        //[Authorize()]
         [HttpGet("getall")]
         public IActionResult GetAll()
         {

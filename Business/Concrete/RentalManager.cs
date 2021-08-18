@@ -5,6 +5,7 @@ using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,16 @@ namespace Business.Concrete
         {
             _rentalDal.Update(rental);
             return new SuccessResult(Messages.RentalUpdated);
+        }
+
+        public IDataResult<List<RentalDetailDto>> GetRentalsDetail()
+        {
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalsDetail().Data, "Kiralamaların detayları listelendi.");
+        }
+
+        public IDataResult<RentalDetailDto> GetRentalDetail(int id)
+        {
+            return new SuccessDataResult<RentalDetailDto>(_rentalDal.GetRentalDetail(id).Data, "Kiralamanın detayları listelendi.");
         }
     }
 }

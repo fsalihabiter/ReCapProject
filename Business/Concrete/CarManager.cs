@@ -30,7 +30,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id), Messages.CarGeted);
         }
 
-        [SecuredOperation("car.list")]
+        //[SecuredOperation("car.list")]
         [ValidationAspect(typeof(CarValidator))]
         public IDataResult<List<Car>> GetAll()
         {
@@ -73,7 +73,7 @@ namespace Business.Concrete
             return new SuccessDataResult<CarDetailsDto>(_carDal.GetCarDetails(id).Data, "Arabanın detayları listelendi.");
         }
 
-        [SecuredOperation("car.add,admin")]
+        //[SecuredOperation("car.add,admin")]
         [CacheRemoveAspect("ICarService.Get")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)

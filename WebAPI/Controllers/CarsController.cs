@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
         }
 
 
-        [Authorize()]
+        //[Authorize()]
         [HttpGet("getbyid")]
         public IActionResult GetById(int Id)
         {
@@ -61,9 +61,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbybrandid")]
-        public IActionResult GetByBrandId(int id)
+        public IActionResult GetByBrandId(int brandId)
         {
-            var result = _carService.GetCarsByBrandId(id);
+            var result = _carService.GetCarsByBrandId(brandId);
             if (result.Success)
             {
                 return Ok(result);
@@ -72,9 +72,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbycolorid")]
-        public IActionResult GetByColorId(int id)
+        public IActionResult GetByColorId(int colorId)
         {
-            var result = _carService.GetCarsByColorId(id);
+            var result = _carService.GetCarsByColorId(colorId);
             if (result.Success)
             {
                 return Ok(result);
@@ -94,9 +94,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getdetails")]
-        public IActionResult GetDetails(int id)
+        public IActionResult GetDetails(int carId)
         {
-            var result = _carService.GetCarDetails(id);
+            var result = _carService.GetCarDetails(carId);
             if (result.Success)
             {
                 return Ok(result);
@@ -104,7 +104,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [Authorize(Roles = "Car.Added")]
+        //[Authorize(Roles = "Car.Added")]
         [HttpPost("add")]
         public IActionResult Add(Car car)
         {
@@ -116,7 +116,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [Authorize(Roles = "Car.Updated")]
+        //[Authorize(Roles = "Car.Updated")]
         [HttpPost("update")]
         public IActionResult Update(Car car)
         {
